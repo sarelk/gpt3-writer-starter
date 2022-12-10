@@ -20,6 +20,7 @@ body {
 }
 
 .container {
+    transition: all 0.3s;
     display: flex;
     place-content: center flex-start;
     align-items: center;
@@ -33,6 +34,19 @@ body {
     position: relative;
     width: auto;
     gap: 64px;
+}
+
+.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.shown {
+    opacity: 1;
+}
+
+.display-flex {
+    display: flex;
 }
 
 .header {    
