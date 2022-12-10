@@ -43,9 +43,9 @@ const Welcome = () => {
       </div>
       <div className="prompt-container">
         <div className="prompt-buttons">
-          <a className='generate-button'>
-            <div className="generate" onClick={() => nextStep()}>
-              <p>Let's Start</p>
+          <a className='generate-button' onClick={() => nextStep()}>
+            <div className="generate">
+              <p>Start</p>
             </div>
           </a>
         </div>
@@ -76,7 +76,7 @@ const Step1 = () => {
         </div>
         <div className="header-subtitle">
           <h2 >What is your character?</h2><br />
-          <input name="charType" placeholder='Insert here' onChange={onUserChangedTextC}></input>
+          <input name="charType" placeholder='Insert here' onChange={onUserChangedTextC}></input><br/>
           For example: Chameleon, avocado, cat, ice cream, dog, tomato, anything that you want
           <h2 >What is it's name?</h2><br />
           <input name="charName" placeholder='Insert here' onChange={onUserChangedText}></input>
@@ -84,8 +84,8 @@ const Step1 = () => {
       </div>
       <div className="prompt-container">
         <div className="prompt-buttons">
-          <a className='generate-button'>
-            <div className="generate" onClick={() => nextStep()}>
+          <a className='generate-button' onClick={() => nextStep()}>
+            <div className="generate">
               <p>Next</p>
             </div>
           </a>
@@ -136,7 +136,7 @@ const Step2 = () => {
           </fieldset>
 
           <h2 >What is {charName} job?</h2><br />
-          <input name="charJob" placeholder='Insert here' onChange={onUserChangedTextC}></input>
+          <input name="charJob" placeholder='Insert here' onChange={onUserChangedTextC}></input><br/>
           For example: Football player, laywer, teacher, actor
 
 
@@ -144,8 +144,8 @@ const Step2 = () => {
       </div>
       <div className="prompt-container">
         <div className="prompt-buttons">
-          <a className='generate-button'>
-            <div className="generate" onClick={() => nextStep()}>
+          <a className='generate-button' onClick={() => nextStep()}>
+            <div className="generate">
               <p>Next</p>
             </div>
           </a>
@@ -162,6 +162,7 @@ const Step3 = () => {
   const [charInput2, setCharInput2] = useState('');
   const [charInput3, setCharInput3] = useState('');
   const [isGenerating, setIsGenerating] = useState(false)
+  const [apiOutput, setApiOutput] = useState('')
   const onUserChangedText = (event) => {
     setUserInput(event.target.value);
   };
@@ -191,7 +192,6 @@ const Step3 = () => {
     let charStyle = sessionStorage.getItem("charStyle");
     setIsGenerating(true);
 
-    console.log("Calling OpenAI...")
     const response = await fetch('/api/image', {
       method: 'POST',
       headers: {
@@ -202,7 +202,6 @@ const Step3 = () => {
 
     const data = await response.json();
     const { output } = data;
-    console.log("OpenAI replied...", output)
 
     setApiOutput(`${output}`);
     setIsGenerating(false);
@@ -215,16 +214,16 @@ const Step3 = () => {
         </div>
         <div className="header-subtitle">
           <h2 >What is {charName} vibe?</h2><br />
-          <input name="charVibe" placeholder='Insert here' onChange={onUserChangedText}></input>
+          <input name="charVibe" placeholder='Insert here' onChange={onUserChangedText}></input><br/>
           For example: Happy, sad, scared, smiling, eating, excited, exshuated, etc...
 
 
           <h2 >What is {charName} wearing?</h2><br />
-          <input name="charClothes" placeholder='Insert here' onChange={onUserChangedTextC}></input>
+          <input name="charClothes" placeholder='Insert here' onChange={onUserChangedTextC}></input><br/>
           For example: Red shirt, sunglasess, dark jeans, headband
 
           <h2 >Where is {charName}?</h2><br />
-          <input name="charLocation" placeholder='Insert here' onChange={onUserChangedTextC2}></input>
+          <input name="charLocation" placeholder='Insert here' onChange={onUserChangedTextC2}></input><br/>
           For example: Classroom, space, beach, forest, home
           <fieldset onChange={onUserChangedTextC3}>
             <legend> <h2 >Choose a theme</h2></legend>
@@ -268,86 +267,14 @@ const Step3 = () => {
           </a>
         </div>
       </div>
-    </>
-  );
-};
-
-const final = () => {
-  const { handleStep, previousStep, nextStep } = useWizard();
-  let data = sessionStorage.getItem("userName");
-  const [userInput, setUserInput] = useState('');
-  const [apiOutput, setApiOutput] = useState('')
-  const [isGenerating, setIsGenerating] = useState(false)
-  const onUserChangedText = (event) => {
-    setUserInput(event.target.value);
-  };
-  const callGenerateEndpoint = async () => {
-    setIsGenerating(true);
-
-    console.log("Calling OpenAI...")
-    const response = await fetch('/api/generate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userInput }),
-    });
-
-    const data = await response.json();
-    const { output } = data;
-    console.log("OpenAI replied...", output.text)
-
-    setApiOutput(`${output.text}`);
-    setIsGenerating(false);
-  }
-
-  // Attach an optional handler
-  handleStep(() => {
-    alert('Going to step 2');
-  });
-
-  return (
-    <>
-      <div className="header">
-        <div className="header-title">
-          <h1>{data}</h1>
-        </div>
-        <div className="header-subtitle">
-          <h2 >Howdy! Please insert here 10 songs you like and get the your playlist of 1984</h2>
-        </div>
-      </div>
-      <div className="prompt-container">
-        <textarea
-          placeholder="List of 10 songs from your spotify liked"
-          className="prompt-box"
-          value={userInput}
-          onChange={onUserChangedText}
-        />
-        <div className="prompt-buttons">
-          <a
-            className={isGenerating ? 'generate-button loading' : 'generate-button'}
-            onClick={callGenerateEndpoint}
-          >
-            <div className="generate">
-              {isGenerating ? <span className="loader"></span> : <p>Generate</p>}
-            </div>
-          </a>
-        </div>
-        {apiOutput && (
+      {apiOutput && (
           <div className="output">
-            <div className="output-header-container">
-              <div className="output-header">
-                <h3>Output</h3>
-              </div>
-            </div>
+            <h1> Hello! i'm {charName}</h1>
             <div className="output-content">
-              <p>{apiOutput}</p>
+              <img src={apiOutput}/>
             </div>
           </div>
         )}
-      </div>
-      <button onClick={() => previousStep()}>Previous ⏮️</button>
-      <button onClick={() => nextStep()}>Next ⏭</button>
     </>
   );
 };

@@ -13,15 +13,15 @@ Giving this list of songs, which 10 songs playlist that came out at 1984 would y
 `
 
 const generateImage = async (req, res) => {
+let reqBody = req.body;
+  const response = await openai.createImage({
+    prompt: `a ${reqBody.charSyle} of a ${reqBody.charAge} ${reqBody.charType} ${reqBody.charVibe} at ${reqBody.charLocation}, working as a ${reqBody.charJob}, wearing a ${reqBody.charClothes}`,
+    n: 1,
+    size: "1024x1024",
+  });
+  const image_url = response.data.data[0].url;
 
-  // const response = await openai.createImage({
-  //   prompt: "a white siamese cat",
-  //   n: 1,
-  //   size: "1024x1024",
-  // });
-  // image_url = response.data.data[0].url;
-
-  res.status(200).json({ output: req.body });
+  res.status(200).json({ output: image_url });
 };
 
 export default generateImage;

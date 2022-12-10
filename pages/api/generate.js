@@ -27,16 +27,4 @@ const generateAction = async (req, res) => {
   res.status(200).json({ output: basePromptOutput });
 };
 
-const generateImage = async (req, res) => {
-console.log(req.body.userInput)
-  // const response = await openai.createImage({
-  //   prompt: "a white siamese cat",
-  //   n: 1,
-  //   size: "1024x1024",
-  // });
-  // image_url = response.data.data[0].url;
-
-  // res.status(200).json({ output: image_url });
-};
-
 export default generateAction;
