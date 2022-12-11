@@ -215,12 +215,12 @@ const Step3 = () => {
         <div className="header-subtitle">
           <h2 >What is {charName} vibe?</h2><br />
           <input name="charVibe" placeholder='Insert here' onChange={onUserChangedText}></input><br/>
-          For example: Happy, sad, scared, smiling, eating, excited, exshuated, etc...
+          For example: Happy, sad, scared, smiling, eating, excited, exhausted, etc...
 
 
           <h2 >What is {charName} wearing?</h2><br />
           <input name="charClothes" placeholder='Insert here' onChange={onUserChangedTextC}></input><br/>
-          For example: Red shirt, sunglasess, dark jeans, headband
+          For example: Red shirt, sunglasses, dark jeans, headband
 
           <h2 >Where is {charName}?</h2><br />
           <input name="charLocation" placeholder='Insert here' onChange={onUserChangedTextC2}></input><br/>
